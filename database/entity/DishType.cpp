@@ -1,35 +1,21 @@
-#include <iostream>
-#include <string>
+//
+// Created by stupi on 30.10.2024.
+//
 
-using namespace std;
+#include "DishType.h"
 
-class DishType {
-public:
+long DishType::get_id() const {
+    return id;
+}
 
-    DishType(long long id, string name) : id(id), name(move(name)) {
-    }
+void DishType::set_id(long id) {
+    this->id = id;
+}
 
-    long long getId() const {
-        return id;
-    }
+std::string DishType::get_name() const {
+    return name;
+}
 
-    void setId(long long id) {
-        this->id = id;
-    }
-
-    [[nodiscard]] string getName() const {
-        return name;
-    }
-
-    void setName(const string &name) {
-        this->name = name;
-    }
-
-    void display() const {
-        cout << "Dish Type ID: " << id << ", Name: " << name << endl;
-    }
-
-private:
-    long long id;
-    string name;
-};
+void DishType::set_name(const std::string &name) {
+    this->name = name;
+}

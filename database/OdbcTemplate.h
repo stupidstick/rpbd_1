@@ -16,6 +16,12 @@ public:
 
     ~OdbcTemplate();
 
+    SQLHENV get_sqlhenv() const;
+
+    SQLHDBC get_sqlhdbc() const;
+
+    SQLHSTMT get_sqlhstmt() const;
+
 private:
     SQLHENV sqlhenv = nullptr;
     SQLHDBC sqlhdbc = nullptr;

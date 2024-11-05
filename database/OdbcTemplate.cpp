@@ -4,7 +4,7 @@
 
 void handleError(SQLRETURN ret, SQLHANDLE handle, SQLSMALLINT type) {
     if (ret != SQL_SUCCESS && ret != SQL_SUCCESS_WITH_INFO) {
-        SQLCHAR sqlState[6], errorMsg[512];
+        SQLCHAR sqlState[6], errorMsg[1024];
         SQLINTEGER nativeError;
         SQLSMALLINT msgLen;
 
@@ -15,7 +15,7 @@ void handleError(SQLRETURN ret, SQLHANDLE handle, SQLSMALLINT type) {
 
 OdbcTemplate::OdbcTemplate() {
     SQLCHAR connectionString[] =
-            "DRIVER={PostgreSQL ODBC Driver(ANSI)};SERVER=localhost;DATABASE=postgres;UID=postgres;PWD=admin;PORT=5432;";
+            "DRIVER={PostgreSQL ODBC Driver(UNICODE)};SERVER=localhost;DATABASE=postgres;UID=postgres;PWD=admin;PORT=5432;";
 
     SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &sqlhenv);
     SQLSetEnvAttr(sqlhenv, SQL_ATTR_ODBC_VERSION, (SQLPOINTER) SQL_OV_ODBC3, 0);
@@ -33,14 +33,27 @@ OdbcTemplate::OdbcTemplate() {
 }
 
 OdbcTemplate::~OdbcTemplate() {
+    cout << "Destructor" << endl;
     SQLDisconnect(sqlhdbc);
     SQLFreeHandle(SQL_HANDLE_STMT, sqlhstmt);
     SQLFreeHandle(SQL_HANDLE_DBC, sqlhdbc);
     SQLFreeHandle(SQL_HANDLE_ENV, sqlhenv);
 }
 
+SQLHENV OdbcTemplate::get_sqlhenv() const {
+    return sqlhenv;
+}
+
+SQLHDBC OdbcTemplate::get_sqlhdbc() const {
+    return sqlhdbc;
+}
+
+SQLHSTMT OdbcTemplate::get_sqlhstmt() const {
+    return sqlhstmt;
+}
+
 SQLHSTMT OdbcTemplate::executeQuery(const string &query) {
-    SQLFreeHandle(SQL_HANDLE_STMT, sqlhstmt);
+    // SQLFreeStmt(sqlhstmt, SQL_CLOSE);
     SQLRETURN sqlreturn = SQLAllocHandle(SQL_HANDLE_STMT, sqlhdbc, &sqlhstmt);
     handleError(sqlreturn, sqlhstmt, SQL_HANDLE_STMT);
     sqlreturn = SQLExecDirect(sqlhstmt, (SQLCHAR *) query.c_str(), SQL_NTS);

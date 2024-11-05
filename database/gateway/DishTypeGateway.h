@@ -1,17 +1,32 @@
+//
+// Created by stupi on 30.10.2024.
+//
+
 #ifndef DISHTYPEGATEWAY_H
 #define DISHTYPEGATEWAY_H
+#include <optional>
+#include <vector>
+
 #include "../OdbcTemplate.h"
-#include "DishType"
+#include "../entity/DishType.h"
+
 
 class DishTypeGateway {
 public:
-    DishTypeGateway(OdbcTemplate);
+    DishTypeGateway(OdbcTemplate *odbc_template);
 
-    ~DishTypeGateway();
+    DishType insert(string name);
 
-    DishType insertDishType(string dishType);
+    optional<DishType> findById(long id);
 
-    void findAllDishTypes();
+    DishType update(long id, string name);
+
+    void remove(long id);
+
+    std::vector<DishType> findAll();
+
+private:
+    OdbcTemplate *odbcTemplate;
 };
 
 
