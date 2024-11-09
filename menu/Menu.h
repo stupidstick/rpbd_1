@@ -39,9 +39,21 @@ private:
 
     void runRecipeMenu();
 
+    void printProducts(vector<Product> products);
+
     void runProductsMenu();
 
-    static void paginate(int size, const function<void(int)> &func);
+    void printCooks(vector<Cook> cooks);
+    
+    void printDishes(const vector<Dish>& dishes);
+
+    void runCookMenu();
+
+    void printDishCookings(vector<DishCooking> dishCookings);
+
+    void runDishCookingMenu();
+
+    // static void paginate(int size, const function<void(int)> &func);
 };
 
 

@@ -46,6 +46,8 @@ add_executable(untitled main.cpp
         database/gateway/DishCookingGateway.h
         menu/Menu.cpp
         menu/Menu.h
+        utils/DateStringValidator.cpp
+        utils/DateStringValidator.h
 )
 
 target_link_libraries(untitled ${ODBC_LIBRARIES})

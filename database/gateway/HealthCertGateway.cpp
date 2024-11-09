@@ -114,5 +114,5 @@ HealthCert HealthCertGateway::update(long id, string number, string receiptDate)
         healthCert.set_receipt_date(string((char *)receiptDateBuffer));
         return healthCert;
     }
-    throw std::invalid_argument("Invalid id");
+    throw std::invalid_argument("Invalid health cert id");
 }

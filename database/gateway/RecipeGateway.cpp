@@ -95,7 +95,7 @@ void RecipeGateway::remove(long id) {
 
 Recipe RecipeGateway::update(long id, long cookingTime, string cookingTechnology, long dishId) {
     stringstream query;
-    query << "UPDATE recipe SET cooking_time = " << cookingTime << ", cooking_technology = '" << cookingTechnology << "', dish_id = " << dishId << ";";
+    query << "UPDATE recipe SET cooking_time = " << cookingTime << ", cooking_technology = '" << cookingTechnology << "', dish_id = " << dishId << " RETURNING id, cooking_time, cooking_technology, dish_id;";
     SQLHSTMT hstmt = odbcTemplate->executeQuery(query.str());
 
     SQLINTEGER id$;

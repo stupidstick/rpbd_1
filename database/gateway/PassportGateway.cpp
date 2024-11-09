@@ -9,10 +9,10 @@ Passport PassportGateway::insert(string firstName, string lastName, string middl
                                  string department_code, string issuer_authority_name, string date_of_issue) {
     stringstream query;
     query << "INSERT INTO passport (first_name, last_name, middle_name, series, number, department_code, "
-            << "issuer_authority_name, date_of_issue) VALUES ('" << firstName << "', '" << lastName << "', '"
+            << "issuing_authority_name, date_of_issue) VALUES ('" << firstName << "', '" << lastName << "', '"
             << middleName << "', '" << series << "', '" << number << "', '" << department_code << "', '"
             << issuer_authority_name << "', '" << date_of_issue << "') RETURNING id, first_name, last_name, "
-            << "middle_name, series, number, department_code, issuer_authority_name, date_of_issue;";
+            << "middle_name, series, number, department_code, issuing_authority_name, date_of_issue;";
 
     SQLHSTMT hstmt = odbcTemplate->executeQuery(query.str());
 
@@ -55,7 +55,7 @@ Passport PassportGateway::insert(string firstName, string lastName, string middl
 optional<Passport> PassportGateway::findById(long id) {
     stringstream query;
     query << "SELECT id, first_name, last_name, middle_name, series, number, department_code, "
-            << "issuer_authority_name, date_of_issue FROM passport WHERE id = " << id << ";";
+            << "issuing_authority_name, date_of_issue FROM passport WHERE id = " << id << ";";
 
     SQLHSTMT hstmt = odbcTemplate->executeQuery(query.str());
 
@@ -99,7 +99,7 @@ optional<Passport> PassportGateway::findById(long id) {
 vector<Passport> PassportGateway::findAll() {
     stringstream query;
     query << "SELECT id, first_name, last_name, middle_name, series, number, department_code, "
-            << "issuer_authority_name, date_of_issue FROM passport;";
+            << "issuing_authority_name, date_of_issue FROM passport;";
 
     SQLHSTMT hstmt = odbcTemplate->executeQuery(query.str());
 
@@ -156,11 +156,11 @@ Passport PassportGateway::update(long id, string firstName, string lastName, str
     stringstream query;
     query << "UPDATE passport SET first_name = '" << firstName << "', last_name = '" << lastName << "', "
             << "middle_name = '" << middleName << "', series = '" << series << "', number = '" << number << "', "
-            << "department_code = '" << department_code << "', issuer_authority_name = '" << issuer_authority_name <<
+            << "department_code = '" << department_code << "', issuing_authority_name = '" << issuer_authority_name <<
             "', "
             << "date_of_issue = '" << date_of_issue << "' WHERE id = " << id
             << " RETURNING id, first_name, last_name, middle_name, series, number, department_code, "
-            << "issuer_authority_name, date_of_issue;";
+            << "issuing_authority_name, date_of_issue;";
 
     SQLHSTMT hstmt = odbcTemplate->executeQuery(query.str());
 
@@ -198,5 +198,5 @@ Passport PassportGateway::update(long id, string firstName, string lastName, str
         passport.set_date_of_issue(string((char *) dateOfIssueBuffer));
         return passport;
     }
-    throw std::invalid_argument("Invalid id");
+    throw std::invalid_argument("Invalid passport id");
 }

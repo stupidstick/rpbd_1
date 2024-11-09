@@ -175,6 +175,12 @@ build CMakeFiles/untitled.dir/menu/Menu.cpp.obj: CXX_COMPILER__untitled_unscanne
   OBJECT_DIR = CMakeFiles\untitled.dir
   OBJECT_FILE_DIR = CMakeFiles\untitled.dir\menu
 
+build CMakeFiles/untitled.dir/utils/DateStringValidator.cpp.obj: CXX_COMPILER__untitled_unscanned_Debug C$:/Users/stupi/CLionProjects/untitled/utils/DateStringValidator.cpp || cmake_object_order_depends_target_untitled
+  DEP_FILE = CMakeFiles\untitled.dir\utils\DateStringValidator.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\untitled.dir
+  OBJECT_FILE_DIR = CMakeFiles\untitled.dir\utils
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target untitled
@@ -183,7 +189,7 @@ build CMakeFiles/untitled.dir/menu/Menu.cpp.obj: CXX_COMPILER__untitled_unscanne
 #############################################
 # Link the executable untitled.exe
 
-build untitled.exe: CXX_EXECUTABLE_LINKER__untitled_Debug CMakeFiles/untitled.dir/main.cpp.obj CMakeFiles/untitled.dir/database/OdbcTemplate.cpp.obj CMakeFiles/untitled.dir/database/entity/DishType.cpp.obj CMakeFiles/untitled.dir/database/entity/Product.cpp.obj CMakeFiles/untitled.dir/database/entity/Dish.cpp.obj CMakeFiles/untitled.dir/database/entity/Recipe.cpp.obj CMakeFiles/untitled.dir/database/gateway/DishTypeGateway.cpp.obj CMakeFiles/untitled.dir/database/gateway/ProductGateway.cpp.obj CMakeFiles/untitled.dir/database/gateway/RecipeGateway.cpp.obj CMakeFiles/untitled.dir/database/gateway/DishGateway.cpp.obj CMakeFiles/untitled.dir/database/entity/DishToProduct.cpp.obj CMakeFiles/untitled.dir/database/gateway/DishToProductGateway.cpp.obj CMakeFiles/untitled.dir/database/entity/Passport.cpp.obj CMakeFiles/untitled.dir/database/entity/HealthCert.cpp.obj CMakeFiles/untitled.dir/database/entity/Cook.cpp.obj CMakeFiles/untitled.dir/database/entity/DishCooking.cpp.obj CMakeFiles/untitled.dir/database/gateway/CookGateway.cpp.obj CMakeFiles/untitled.dir/database/gateway/PassportGateway.cpp.obj CMakeFiles/untitled.dir/database/gateway/HealthCertGateway.cpp.obj CMakeFiles/untitled.dir/database/gateway/DishCookingGateway.cpp.obj CMakeFiles/untitled.dir/menu/Menu.cpp.obj
+build untitled.exe: CXX_EXECUTABLE_LINKER__untitled_Debug CMakeFiles/untitled.dir/main.cpp.obj CMakeFiles/untitled.dir/database/OdbcTemplate.cpp.obj CMakeFiles/untitled.dir/database/entity/DishType.cpp.obj CMakeFiles/untitled.dir/database/entity/Product.cpp.obj CMakeFiles/untitled.dir/database/entity/Dish.cpp.obj CMakeFiles/untitled.dir/database/entity/Recipe.cpp.obj CMakeFiles/untitled.dir/database/gateway/DishTypeGateway.cpp.obj CMakeFiles/untitled.dir/database/gateway/ProductGateway.cpp.obj CMakeFiles/untitled.dir/database/gateway/RecipeGateway.cpp.obj CMakeFiles/untitled.dir/database/gateway/DishGateway.cpp.obj CMakeFiles/untitled.dir/database/entity/DishToProduct.cpp.obj CMakeFiles/untitled.dir/database/gateway/DishToProductGateway.cpp.obj CMakeFiles/untitled.dir/database/entity/Passport.cpp.obj CMakeFiles/untitled.dir/database/entity/HealthCert.cpp.obj CMakeFiles/untitled.dir/database/entity/Cook.cpp.obj CMakeFiles/untitled.dir/database/entity/DishCooking.cpp.obj CMakeFiles/untitled.dir/database/gateway/CookGateway.cpp.obj CMakeFiles/untitled.dir/database/gateway/PassportGateway.cpp.obj CMakeFiles/untitled.dir/database/gateway/HealthCertGateway.cpp.obj CMakeFiles/untitled.dir/database/gateway/DishCookingGateway.cpp.obj CMakeFiles/untitled.dir/menu/Menu.cpp.obj CMakeFiles/untitled.dir/utils/DateStringValidator.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -Wl,-Bstatic  -lodbc32  -Wl,-Bdynamic  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\untitled.dir
