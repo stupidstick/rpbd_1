@@ -153,7 +153,8 @@ ALTER SEQUENCE public.dish_id_seq OWNED BY public.dish.id;
 CREATE TABLE public.dish_to_product (
     id integer NOT NULL,
     dish_id integer NOT NULL,
-    product_id integer NOT NULL
+    product_id integer NOT NULL,
+    products_count integer NOT NULL
 );
 
 

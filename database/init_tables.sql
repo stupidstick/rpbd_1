@@ -26,7 +26,8 @@ CREATE TABLE IF NOT EXISTS dish_to_product
 (
     id         SERIAL PRIMARY KEY,
     dish_id    INTEGER REFERENCES dish (id)    NOT NULL,
-    product_id INTEGER REFERENCES product (id) NOT NULL
+    product_id INTEGER REFERENCES product (id) NOT NULL,
+    products_count INTEGER NOT NULL
     );
 
 CREATE TABLE IF NOT EXISTS recipe

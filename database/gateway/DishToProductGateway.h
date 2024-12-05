@@ -15,7 +15,7 @@ class DishToProductGateway {
 public:
     DishToProductGateway(OdbcTemplate *odbcTemplate);
 
-    DishToProduct insert(long dishId, long productId);
+    DishToProduct insert(long dishId, long productId, long productsCount);
 
     optional<DishToProduct> findById(long id);
 
@@ -23,7 +23,7 @@ public:
 
     void remove(long id);
 
-    DishToProduct update(long id, long dishId, long productId);
+    DishToProduct update(long id, long dishId, long productId, long productsCount);
 
 private:
     OdbcTemplate *odbcTemplate;

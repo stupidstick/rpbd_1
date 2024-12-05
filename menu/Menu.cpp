@@ -21,14 +21,6 @@ void printEnterAction() {
     cout << "Enter action: ";
 }
 
-void printTableHeader(const vector<string> &columns) {
-    cout << left << setw(10) << "N";
-    for (const auto &column: columns) {
-        cout << setw(20) << column;
-    }
-    cout << endl;
-}
-
 void paginate(int size, const function<void(int)> &func) {
     if (size <= 0) {
         cout << "Elements are missing" << endl;
@@ -57,6 +49,42 @@ void paginate(int size, const function<void(int)> &func) {
     }
 }
 
+vector<DishToProduct> enterDishToProducts(const vector<Product> &products) {
+    auto dish_to_products = vector<DishToProduct>();
+    int productN;
+    while (true) {
+        cout << "Enter product N or -1 to stop" << endl;
+        cin >> productN;
+        if (productN == -1) {
+            break;
+        }
+        if (productN <= 0 || productN > products.size()) {
+            cout << "Invalid product number" << endl;
+        } else {
+            int productsCount;
+            cout << "Enter products count: ";
+            cin >> productsCount;
+            if (productsCount <= 0) {
+                cout << "Invalid count" << endl;
+            } else {
+                auto dish_to_product = DishToProduct();
+                dish_to_product.set_product_id(products[productN - 1].get_id());
+                dish_to_product.set_products_count(productsCount);
+                dish_to_products.push_back(dish_to_product);
+            }
+        }
+    }
+    return dish_to_products;
+}
+
+void printTableHeader(const vector<string> &columns) {
+    cout << left << setw(10) << "N";
+    for (const auto &column: columns) {
+        cout << setw(20) << column;
+    }
+    cout << endl;
+}
+
 Menu::Menu() {
     this->odbcTemplate = new OdbcTemplate();
     this->cookGateway = new CookGateway(odbcTemplate);
@@ -74,8 +102,6 @@ Menu::~Menu() {
     delete this->cookGateway;
     delete this->dishCookingGateway;
     delete this->dishGateway;
-    delete this->dishToProductGateway;
-    delete this->dishTypeGateway;
     delete this->dishToProductGateway;
     delete this->dishTypeGateway;
     delete this->healthCertGateway;
@@ -248,7 +274,7 @@ void Menu::printDishes(const vector<Dish> &dishes) {
         for (auto dishToProduct: dishesToProducts) {
             if (dishToProduct.get_dish_id() == currentDish.get_id()) {
                 Product product = productGateway->findById(dishToProduct.get_product_id()).value();
-                cout << product.get_name() << " ";
+                cout << product.get_name() << "(" << dishToProduct.get_products_count() << ") ";
             }
         }
         cout << endl;
@@ -304,35 +330,17 @@ void Menu::runDishMenu() {
                     break;
                 }
 
-                cout << "Products: " << endl;
-                cout << left << setw(10) << "N" << setw(20) << "Product" << endl;
-                paginate(products.size(), [products](int i) {
-                    cout << left << setw(10) << i + 1 << setw(20) << products[i].get_name() << endl;
-                });
-
-                vector<Product> productsToAdd = vector<Product>();
-                int productN;
-                cout << "Enter product N or -1 to stop" << endl;
-                while (true) {
-                    cin >> productN;
-                    if (productN == -1) {
-                        break;
-                    }
-                    if (productN <= 0 || productN > products.size()) {
-                        cout << "Invalid product number" << endl;
-                    } else {
-                        productsToAdd.push_back(products[productN - 1]);
-                    }
-                }
-                if (productsToAdd.empty()) {
+                printProducts(products);
+                vector<DishToProduct> dishToProducts = enterDishToProducts(products);
+                if (dishToProducts.empty()) {
                     cout << "Products is empty" << endl;
                     break;
                 }
 
-
                 Dish dish = dishGateway->insert(name, dishWeight, imageUrl, dishTypes[dishTypeN - 1].get_id());
-                for (int i = 0; i < productsToAdd.size(); i++) {
-                    dishToProductGateway->insert(dish.get_id(), productsToAdd[i].get_id());
+                for (auto dishToProduct: dishToProducts) {
+                    dishToProductGateway->insert(dish.get_id(), dishToProduct.get_product_id(),
+                                                 dishToProduct.get_products_count());
                 }
 
                 cout << "Dish: name = " << dish.get_name() << ", weight: " << dishWeight << ", image url: " << imageUrl
@@ -394,7 +402,7 @@ void Menu::runDishMenu() {
             case 3: {
                 vector<DishType> dishTypes = dishTypeGateway->findAll();
                 if (dishTypes.empty()) {
-                    cout << "Add the food types first." << endl;
+                    cout << "Add the dish types first." << endl;
                     break;
                 }
                 vector<Product> products = productGateway->findAll();
@@ -442,34 +450,27 @@ void Menu::runDishMenu() {
                 }
 
                 printProducts(products);
-                vector<Product> productsToAdd = vector<Product>();
-                int productN;
-                cout << "Enter product N or -1 to stop" << endl;
-                while (true) {
-                    cin >> productN;
-                    if (productN == -1) {
-                        break;
-                    }
-                    if (productN <= 0 || productN > products.size()) {
-                        cout << "Invalid product number" << endl;
-                    } else {
-                        productsToAdd.push_back(products[productN - 1]);
-                    }
-                }
-                if (productsToAdd.empty()) {
+                vector<DishToProduct> dishToProducts = enterDishToProducts(products);
+                if (dishToProducts.empty()) {
                     cout << "Products is empty" << endl;
                     break;
                 }
 
-                vector<DishToProduct> dishToProducts = dishToProductGateway->findAll();
-                for (auto dishToProduct: dishToProducts) {
+                if (dishToProducts.empty()) {
+                    cout << "Products is empty" << endl;
+                    break;
+                }
+
+                vector<DishToProduct> oldDishToProducts = dishToProductGateway->findAll();
+                for (auto dishToProduct: oldDishToProducts) {
                     if (dishToProduct.get_dish_id() == dishes[n - 1].get_id()) {
                         dishToProductGateway->remove(dishToProduct.get_id());
                     }
                 }
 
-                for (auto product: productsToAdd) {
-                    dishToProductGateway->insert(dishes[n - 1].get_id(), product.get_id());
+                for (auto dishToProduct: dishToProducts) {
+                    dishToProductGateway->insert(dishes[n - 1].get_id(), dishToProduct.get_product_id(),
+                                                 dishToProduct.get_products_count());
                 }
                 dishGateway->update(dishes[n - 1].get_id(), name, weight, imageUrl, dishTypes[dishTypeN - 1].get_id());
                 break;
@@ -936,7 +937,7 @@ void Menu::printDishCookings(vector<DishCooking> dishCookings) {
         DishType dishType = dishTypeGateway->findById(dish.get_dish_type_id()).value();
         cout << left
                 << setw(10) << i + 1
-                 << passport.get_last_name() << " " << passport.get_first_name() << " " << passport.
+                << passport.get_last_name() << " " << passport.get_first_name() << " " << passport.
                 get_middle_name()
                 << setw(20) << dish.get_name()
                 << setw(20) << dishType.get_name()

@@ -8,11 +8,11 @@ void DishToProduct::set_id(long id) {
     this->id = id;
 }
 
-void DishToProduct::set_dish_id(long dish_id) {
+void DishToProduct::set_dish_id(const long dish_id) {
     dishId = dish_id;
 }
 
-void DishToProduct::set_product_id(long product_id) {
+void DishToProduct::set_product_id(const long product_id) {
     productId = product_id;
 }
 
@@ -26,4 +26,12 @@ long DishToProduct::get_dish_id() const {
 
 long DishToProduct::get_product_id() const {
     return productId;
+}
+
+long DishToProduct::get_products_count() const {
+    return productsCount;
+}
+
+void DishToProduct::set_products_count(const long products_count) {
+    this->productsCount = products_count;
 }

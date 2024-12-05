@@ -25,10 +25,15 @@ public:
 
     long get_product_id() const;
 
+    long get_products_count() const;
+
+    void set_products_count(long products_count);
+
 private:
     long id;
     long dishId;
     long productId;
+    long productsCount;
 };
 
 
